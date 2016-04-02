@@ -1,0 +1,13 @@
+---
+
+- name: install nginx
+  hosts:
+    - web_servers
+  roles:
+    - web
+
+- name: install nodejs
+  hosts:
+    - nodejs_servers
+  roles:
+    - nodejs
