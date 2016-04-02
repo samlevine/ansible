@@ -1,0 +1,20 @@
+---
+
+- stat: path=/usr/bin/npm
+  register: npm_binary
+
+- name: add node repo
+  become: yes
+  shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+  when: npm_binary.stat.exists == false
+
+- name: install nodejs
+  become: yes
+  apt: name={{item}} state=present force=yes
+  with_items:
+    - nodejs
+    - build-essential
+
+- name: install react
+  become: yes
+  npm: name=react global=yes 
