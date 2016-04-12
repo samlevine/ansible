@@ -1,0 +1,18 @@
+---
+
+- name: copy helloworld.js
+  copy: src=helloworld.js dest=/var/www/helloworld.js
+  become: yes
+
+- name: copy nginx config file
+  copy: src=nginx.conf dest=/etc/nginx/sites-available/helloworld
+  become: yes
+
+- name: make site available
+  file: src=/etc/nginx/sites-available/helloworld dest=/etc/nginx/sites-enabled/helloworld state=link
+  become: yes
+  notify: restart nginx
+
+- name: ensure default page is not available
+  file: path=/etc/nginx/sites-enabled/default state=absent
+  become: yes

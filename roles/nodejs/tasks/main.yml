@@ -17,4 +17,13 @@
 
 - name: install react
   become: yes
-  npm: name=react global=yes 
+  npm: name={{item}} global=yes
+  with_items:
+    - react
+    - koa
+- file: path=/var/www state=directory
+  become: yes
+
+- name: deploy helloworld
+  include: tasks/deploy.yml
+  when: deploy_helloworld is defined and deploy_helloworld == True

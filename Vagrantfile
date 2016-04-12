@@ -13,11 +13,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.box = "ubuntu/trusty64"
   config.vm.network "forwarded_port", guest: 80, host: 8888
+  #config.vm.network "forwarded_port", guest: 3000, host: 3030
 
   #config.vm.provision "shell",
   #  inline: "sudo apt-get update"
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = 'site.yml'
+    ansible.extra_vars = "vagrant/group_vars/all/all"
     ansible.groups = {
       "web_servers" => ["default"],
       "nodejs_servers" => ["default"]
